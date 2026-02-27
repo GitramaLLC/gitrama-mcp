@@ -130,7 +130,13 @@ Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`
 
 ---
 
-## Tools (10)
+## Tools (11)
+
+### Repository Intelligence
+
+| Tool | Description |
+|------|-------------|
+| `gitrama_ask` | Ask any question about your repo — ownership, history, risk, changes |
 
 ### Commit Intelligence
 
@@ -165,6 +171,27 @@ Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`
 ---
 
 ## Tool Details
+
+### `gitrama_ask`
+
+Ask a natural language question about your repository. Gitrama analyzes commit history, file structure, blame data, and diffs to answer.
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `question` | string | *required* | Any question about your repo |
+| `scope` | string | `"auto"` | Context: `"auto"`, `"branch"`, `"full"`, or `"staged"` |
+| `model` | string | `""` | AI model override |
+
+**Example prompts:**
+- *"Who owns the auth module?"*
+- *"When did we last change the payment logic?"*
+- *"What's the riskiest file in this repo?"*
+- *"Summarize what happened on this branch"*
+- *"What changed in the last 3 days?"*
+- *"Explain the purpose of src/utils/retry.py"*
+
+---
 
 ### `gitrama_commit`
 
