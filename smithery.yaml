@@ -1,0 +1,12 @@
+name: gitrama-mcp
+description: AI Git workflow MCP server. Generates conventional commit messages, branch names, PR descriptions, and manages work streams. Works with Cursor, Claude Desktop, Claude Code, Windsurf, and VS Code.
+tags:
+  - git
+  - ai
+  - developer-tools
+  - python
+  - conventional-commits
+  - workflow
+author: onegreatdev
+homepage: https://gitrama.io
+repository: https://github.com/ahmaxdev/gitrama-mcp
