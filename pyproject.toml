@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gitrama-mcp"
-version = "1.2.0"
+version = "1.2.1"
 description = "MCP Server for Gitrama — AI-powered Git intelligence for your IDE"
 readme = "README.md"
 license = "MIT"
@@ -26,13 +26,13 @@ classifiers = [
 ]
 dependencies = [
     "mcp>=1.2.0",
-    "gitrama>=1.0.3",
+    "gitrama",
 ]
 
 [project.urls]
 Homepage = "https://gitrama.ai"
 Repository = "https://github.com/ahmaxdev/gitrama-mcp"
-Documentation = "https://gitrama.ai/docs_v4"
+Documentation = "https://gitrama.ai/docs"
 Issues = "https://github.com/ahmaxdev/gitrama-mcp/issues"
 
 [project.scripts]
