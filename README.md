@@ -4,35 +4,33 @@
 
 [![PyPI](https://img.shields.io/pypi/v/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) 
+[![License](https://img.shields.io/badge/License-BSL%201.1-green.svg)](https://github.com/GitramaLLC/gitrama-mcp/blob/main/LICENSE)
 
 ## What is this?
 
-Gitrama MCP Server exposes [Gitrama](https://gitrama.ai)'s CLI as **10 MCP tools** that any AI assistant can use. Instead of typing `gtr commit` in your terminal, your AI assistant calls the tool directly — analyzing your code changes, generating commit messages, suggesting branch names, and more.
+Gitrama MCP Server exposes [Gitrama](https://gitrama.ai)'s intelligence engine as **11 MCP tools** that any AI assistant can use. Instead of switching to a terminal, your AI assistant calls the tools directly — analyzing your code, generating commit messages, reviewing diffs, and managing your workflow without breaking your focus.
 
 **Works with:** Cursor · Claude Desktop · Claude Code · Windsurf · VS Code (Copilot) · Zed · any MCP-compatible client
 
+---
+
 ## Install (< 60 seconds)
 
-### Step 1: Install the package
+### Step 1 — Install the package
 
 ```bash
 pip install gitrama-mcp
 ```
 
 Or with uv:
+
 ```bash
 uv pip install gitrama-mcp
 ```
 
-This installs both the MCP server and the `gitrama` CLI.
+### Step 2 — Connect to your IDE
 
-### Step 2: Connect to your IDE
-
-<details>
-<summary><b>Cursor</b></summary>
-
-Add to `.cursor/mcp.json` in your project (or global settings):
+**Cursor** — add to `.cursor/mcp.json`:
 
 ```json
 {
@@ -43,15 +41,11 @@ Add to `.cursor/mcp.json` in your project (or global settings):
   }
 }
 ```
-</details>
 
-<details>
-<summary><b>Claude Desktop</b></summary>
+**Claude Desktop** — add to `claude_desktop_config.json`:
 
-Add to `claude_desktop_config.json`:
-
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
@@ -62,20 +56,14 @@ Add to `claude_desktop_config.json`:
   }
 }
 ```
-</details>
 
-<details>
-<summary><b>Claude Code</b></summary>
+**Claude Code:**
 
 ```bash
 claude mcp add gitrama gitrama-mcp
 ```
-</details>
 
-<details>
-<summary><b>VS Code (Copilot)</b></summary>
-
-Add to `.vscode/settings.json`:
+**VS Code (Copilot)** — add to `.vscode/settings.json`:
 
 ```json
 {
@@ -88,12 +76,8 @@ Add to `.vscode/settings.json`:
   }
 }
 ```
-</details>
 
-<details>
-<summary><b>Windsurf</b></summary>
-
-Add to `~/.codeium/windsurf/mcp_config.json`:
+**Windsurf** — add to `~/.codeium/windsurf/mcp_config.json`:
 
 ```json
 {
@@ -104,12 +88,8 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
   }
 }
 ```
-</details>
 
-<details>
-<summary><b>Zed</b></summary>
-
-Add to Zed settings (`⌘,`):
+**Zed** — add to Zed settings (`⌘,`):
 
 ```json
 {
@@ -122,49 +102,48 @@ Add to Zed settings (`⌘,`):
   }
 }
 ```
-</details>
 
-### Step 3: Done.
+### Step 3 — Done
 
 Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`.
 
 ---
 
-## Tools (11)
+## Tools
 
 ### Repository Intelligence
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `gitrama_ask` | Ask any question about your repo — ownership, history, risk, changes |
+| `gitrama_ask` | Ask any question about your repo — ownership, history, risk, recent changes |
 
 ### Commit Intelligence
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
 | `gitrama_commit` | Generate an AI commit message for staged changes |
-| `gitrama_stage_and_commit` | Stage files + commit in one step |
-| `gitrama_commit_quality` | Analyze quality of recent commit messages |
+| `gitrama_stage_and_commit` | Stage files and commit in one step |
+| `gitrama_commit_quality` | Score the quality of recent commit messages |
 
 ### Branch Management
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
 | `gitrama_branch` | Create a new branch |
 | `gitrama_branch_suggest` | Get AI-suggested branch names from a description |
 
 ### PR & Changelog
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `gitrama_pr` | Generate a PR description from branch diff |
-| `gitrama_changelog` | Generate a changelog between refs |
+| `gitrama_pr` | Generate a PR description from your branch diff |
+| `gitrama_changelog` | Generate a changelog between two refs |
 
 ### Stream (Workflow) Management
 
-| Tool | Description |
+| Tool | What it does |
 |------|-------------|
-| `gitrama_stream_status` | Show current workflow stream |
+| `gitrama_stream_status` | Show your current workflow stream |
 | `gitrama_stream_switch` | Switch to a different stream |
 | `gitrama_stream_list` | List all streams in the repo |
 
@@ -174,22 +153,20 @@ Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`
 
 ### `gitrama_ask`
 
-Ask a natural language question about your repository. Gitrama analyzes commit history, file structure, blame data, and diffs to answer.
+Ask a natural language question about your repository.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `question` | string | *required* | Any question about your repo |
-| `scope` | string | `"auto"` | Context: `"auto"`, `"branch"`, `"full"`, or `"staged"` |
+| `scope` | string | `"auto"` | History depth: `"auto"`, `"branch"`, `"full"`, or `"staged"` |
 | `model` | string | `""` | AI model override |
 
 **Example prompts:**
 - *"Who owns the auth module?"*
-- *"When did we last change the payment logic?"*
-- *"What's the riskiest file in this repo?"*
-- *"Summarize what happened on this branch"*
+- *"When did we last touch the payment logic?"*
+- *"What's the riskiest file right now?"*
 - *"What changed in the last 3 days?"*
-- *"Explain the purpose of src/utils/retry.py"*
+- *"Explain what src/utils/retry.py does"*
 
 ---
 
@@ -197,14 +174,13 @@ Ask a natural language question about your repository. Gitrama analyzes commit h
 
 Generate an AI-powered commit message for staged changes.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `message_type` | string | `"conventional"` | Style: `"conventional"`, `"detailed"`, or `"simple"` |
-| `context` | string | `""` | Optional context (e.g., `"fixing auth bug"`) |
-| `model` | string | `""` | AI model override (e.g., `"gpt-4o"`, `"claude-sonnet-4-20250514"`) |
+| `context` | string | `""` | Optional hint to guide the AI |
+| `model` | string | `""` | AI model override |
 
-**Example prompt:** *"Commit my changes with a conventional message, context: refactoring the payment module"*
+**Example prompt:** *"Commit my changes — context: refactoring the payment module"*
 
 ---
 
@@ -212,26 +188,22 @@ Generate an AI-powered commit message for staged changes.
 
 Stage files and commit in one step.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `files` | string | `"."` | Files to stage (`.` for all, or space-separated paths) |
 | `message_type` | string | `"conventional"` | Commit style |
-| `context` | string | `""` | Optional context |
+| `context` | string | `""` | Optional hint |
 | `model` | string | `""` | AI model override |
-
-**Example prompt:** *"Stage and commit all my changes"*
 
 ---
 
 ### `gitrama_commit_quality`
 
-Analyze recent commit message quality.
+Score the quality of recent commit messages.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `count` | int | `10` | Number of commits to analyze (1-50) |
+| `count` | int | `10` | Commits to analyze (1–50) |
 
 **Example prompt:** *"How good are our last 20 commit messages?"*
 
@@ -239,12 +211,11 @@ Analyze recent commit message quality.
 
 ### `gitrama_branch_suggest`
 
-Get AI-suggested branch names.
+Get AI-suggested branch names for a task.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `description` | string | *required* | Task description |
+| `description` | string | *required* | What you're working on |
 | `model` | string | `""` | AI model override |
 
 **Example prompt:** *"Suggest a branch name for adding OAuth2 support"*
@@ -253,26 +224,22 @@ Get AI-suggested branch names.
 
 ### `gitrama_pr`
 
-Generate a PR description.
+Generate a PR description from your branch diff.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `base` | string | `""` | Target branch (default: main/master) |
 | `model` | string | `""` | AI model override |
 
-**Example prompt:** *"Write a PR description for this branch"*
-
 ---
 
 ### `gitrama_changelog`
 
-Generate a changelog.
+Generate a changelog between two refs.
 
-**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `since` | string | `""` | Start ref (tag, branch, hash) |
+| `since` | string | `""` | Start ref (tag, branch, or hash) |
 | `until` | string | `""` | End ref (default: HEAD) |
 | `format` | string | `"markdown"` | `"markdown"` or `"json"` |
 | `model` | string | `""` | AI model override |
@@ -287,58 +254,48 @@ Generate a changelog.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GTR_CWD` | `os.getcwd()` | Working directory for git operations |
+| `GTR_CWD` | current directory | Working directory for git operations |
 | `GTR_MCP_TRANSPORT` | `"stdio"` | Transport: `"stdio"` or `"streamable-http"` |
-| `GTR_MCP_HOST` | `"0.0.0.0"` | HTTP host (when using streamable-http) |
-| `GTR_MCP_PORT` | `"8765"` | HTTP port (when using streamable-http) |
+| `GTR_MCP_HOST` | `"0.0.0.0"` | Host (HTTP transport only) |
+| `GTR_MCP_PORT` | `"8765"` | Port (HTTP transport only) |
 
-### HTTP Transport (for CI/CD)
+### HTTP Transport (CI/CD)
 
 ```bash
 GTR_MCP_TRANSPORT=streamable-http GTR_MCP_PORT=8765 gitrama-mcp
 ```
 
-Then connect your client to `http://localhost:8765/mcp`.
-
 ---
 
 ## Requirements
 
-- Python 3.10+
 - Git installed and in PATH
-- A Gitrama API key or local Ollama instance
+- A Gitrama API key ([get one at gitrama.ai](https://gitrama.ai))
 
-Set your API key:
+Set your key after installing:
+
 ```bash
-gtr config --key YOUR_API_KEY
+gtr setup
 ```
 
-Or use a local model:
-```bash
-gtr config --provider ollama --model llama3
-```
-
----
-
-## Development
+Or to use a local model:
 
 ```bash
-git clone https://github.com/GitramaLLC/gitrama-mcp/gitrama-mcp.git
-cd gitrama-mcp
-pip install -e ".[dev]"
-
-# Test with MCP Inspector
-mcp dev src/gitrama_mcp/server.py
+gtr setup --provider ollama
 ```
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Business Source License 1.1. Free for individual and non-competing use.  
+See [LICENSE](https://github.com/GitramaLLC/gitrama-mcp/blob/main/LICENSE) for full terms.
+
+The Gitrama intelligence engine this server connects to is proprietary.  
+The MCP integration layer is source-available under BSL 1.1.
 
 ---
 
-Built by [Alfonso Harding](https://linkedin.com/in/alfonsoharding) · [gitrama.ai](https://gitrama.ai)
+Built by [Gitrama LLC](https://gitrama.ai) · [gitrama.ai](https://gitrama.ai)
 
 🌿
