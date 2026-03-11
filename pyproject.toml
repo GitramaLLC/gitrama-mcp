@@ -4,36 +4,37 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gitrama-mcp"
-version = "1.0.0"
+version = "1.1.0"
 description = "MCP Server for Gitrama — AI-powered Git intelligence for your IDE"
 readme = "README.md"
-license = "MIT"
+license = { text = "Business Source License 1.1" }
 requires-python = ">=3.10"
 authors = [
-    { name = "Alfonso Harding", email = "alfonso@onegreatdev.com" },
+    { name = "Gitrama LLC", email = "hello@gitrama.ai" },
 ]
-keywords = ["mcp", "git", "ai", "commit", "gitrama", "cursor", "claude"]
+keywords = ["mcp", "git", "ai", "commit", "gitrama", "cursor", "claude", "developer-tools"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
     "mcp>=1.2.0",
-    "gitrama>=1.0.3",
+    "gitrama>=1.3.0",
 ]
 
 [project.urls]
 Homepage = "https://gitrama.ai"
-Repository = "https://github.com/onegreatdev/gitrama-mcp"
+Repository = "https://github.com/GitramaLLC/gitrama-mcp"
 Documentation = "https://gitrama.ai/docs"
-Issues = "https://github.com/onegreatdev/gitrama-mcp/issues"
+Issues = "https://github.com/GitramaLLC/gitrama-mcp/issues"
+Changelog = "https://github.com/GitramaLLC/gitrama-mcp/releases"
 
 [project.scripts]
 gitrama-mcp = "gitrama_mcp.server:main"
