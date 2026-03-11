@@ -323,7 +323,7 @@ gtr config --provider ollama --model llama3
 ## Development
 
 ```bash
-git clone https://github.com/onegreatdev/gitrama-mcp.git
+git clone https://github.com/GitramaLLC/gitrama-mcp/gitrama-mcp.git
 cd gitrama-mcp
 pip install -e ".[dev]"
 
