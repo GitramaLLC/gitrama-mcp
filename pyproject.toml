@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "Business Source License 1.1" }
 requires-python = ">=3.10"
 authors = [
-    { name = "Gitrama LLC", email = "hello@gitrama.ai" },
+    { name = "Gitrama LLC", email = "contact@gitrama.ai" },
 ]
 keywords = ["mcp", "git", "ai", "commit", "gitrama", "cursor", "claude", "developer-tools"]
 classifiers = [
