@@ -1,21 +1,95 @@
-MIT License
+Copyright (c) 2026 GitramaLLC. All rights reserved.
 
-Copyright (c) 2026 Alfonso Harding
+PROPRIETARY SOFTWARE LICENSE
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software and associated documentation files (the "Software") are the
+proprietary and confidential property of GitramaLLC ("Company"). The Software
+is protected by copyright laws and international copyright treaties, as well
+as other intellectual property laws and treaties.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+GRANT OF LICENSE
+
+Subject to the terms of this License, Company grants you a limited,
+non-exclusive, non-transferable, non-sublicensable license to install and
+use the Software solely for your personal or internal business purposes in
+connection with the Gitrama service.
+
+RESTRICTIONS
+
+You may not, and you may not permit others to:
+
+  1. Copy, modify, adapt, translate, or create derivative works of the
+     Software or any part thereof.
+
+  2. Reverse engineer, disassemble, decompile, or otherwise attempt to
+     derive the source code, structure, or algorithms of the Software,
+     except to the extent expressly permitted by applicable law.
+
+  3. Rent, lease, lend, sell, sublicense, assign, distribute, publish,
+     transfer, or otherwise make available the Software or any features
+     or functionality of the Software to any third party.
+
+  4. Remove, alter, or obscure any proprietary notices (including copyright
+     notices) on or in any copy of the Software.
+
+  5. Use the Software to build a product or service that competes with
+     the Gitrama service or any other products or services of the Company.
+
+  6. Use the Software in any manner that could damage, disable, overburden,
+     or impair the Gitrama service or servers or networks connected to the
+     Gitrama service.
+
+INTELLECTUAL PROPERTY
+
+The Software and all copies thereof are proprietary to the Company and title
+thereto remains in the Company. All rights in the Software not specifically
+granted in this License are reserved to the Company. You acknowledge that
+no title to the intellectual property in the Software is transferred to you.
+
+OPEN SOURCE COMPONENTS
+
+The Software may include open source software components. Such components
+are licensed under their respective open source licenses. The Company's
+proprietary rights apply only to the original portions of the Software and
+not to any open source components.
+
+TERMINATION
+
+This License is effective until terminated. Your rights under this License
+will terminate automatically without notice from the Company if you fail to
+comply with any term of this License. Upon termination of this License, you
+must cease all use of the Software and destroy all copies, full or partial,
+of the Software.
+
+DISCLAIMER OF WARRANTIES
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE COMPANY BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE COMPANY BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+GOVERNING LAW
+
+This License shall be governed by and construed in accordance with the laws
+of the State of South Carolina, United States of America, without regard to its
+conflict of law provisions.
+
+ENTIRE AGREEMENT
+
+This License constitutes the entire agreement between you and the Company
+concerning the Software and supersedes all prior or contemporaneous
+understandings regarding such subject matter.
+
+For licensing inquiries, contact: contact@gitrama.ai
