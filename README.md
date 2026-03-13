@@ -4,7 +4,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![License: Proprietary](https://img.shields.io/badge/License-Proprietary-1A7A4A.svg)
 
 ## What is this?
 
