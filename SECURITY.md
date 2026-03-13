@@ -88,7 +88,7 @@ For enterprise deployments, Gitrama offers:
 - **Zero data retention** — diffs processed in-memory, never persisted
 - **Custom model hosting** — bring your own LLM, no data leaves your network
 
-Contact [enterprise@gitrama.ai](mailto:enterprise@gitrama.ai) for details.
+Contact [contact@gitrama.ai](mailto:contact@gitrama.ai) for details.
 
 ## Dependencies
 
@@ -126,4 +126,5 @@ We pin dependency versions in `requirements.txt` and review updates regularly.
 | Date | Change |
 |------|--------|
 | 2026-03-02 | Initial security policy published |
+
 
