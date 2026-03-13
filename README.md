@@ -4,48 +4,35 @@
 
 [![PyPI](https://img.shields.io/pypi/v/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
-[![License](https://img.shields.io/badge/License-BSL%201.1-green.svg)](https://github.com/GitramaLLC/gitrama-mcp/blob/main/LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 
 ## What is this?
 
-Gitrama MCP Server exposes [Gitrama](https://gitrama.ai)'s intelligence engine as **11 MCP tools** that any AI assistant can use. Instead of switching to a terminal, your AI assistant calls the tools directly — analyzing your code, generating commit messages, reviewing diffs, and managing your workflow without breaking your focus.
+Gitrama MCP Server exposes [Gitrama](https://gitrama.ai)'s CLI as **10 MCP tools** that any AI assistant can use. Instead of typing `gtr commit` in your terminal, your AI assistant calls the tool directly — analyzing your code changes, generating commit messages, suggesting branch names, and more.
 
 **Works with:** Cursor · Claude Desktop · Claude Code · Windsurf · VS Code (Copilot) · Zed · any MCP-compatible client
 
----
-
 ## Install (< 60 seconds)
 
-### Step 1 — Install the package
+### Step 1: Install the package
 
 ```bash
 pip install gitrama-mcp
 ```
 
 Or with uv:
-
 ```bash
 uv pip install gitrama-mcp
 ```
 
-### Step 2 — Connect to your IDE
+This installs both the MCP server and the `gitrama` CLI.
 
-**Cursor** — add to `.cursor/mcp.json`:
+### Step 2: Connect to your IDE
 
-```json
-{
-  "mcpServers": {
-    "gitrama": {
-      "command": "gitrama-mcp"
-    }
-  }
-}
-```
+<details>
+<summary><b>Cursor</b></summary>
 
-**Claude Desktop** — add to `claude_desktop_config.json`:
-
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+Add to `.cursor/mcp.json` in your project (or global settings):
 
 ```json
 {
@@ -56,14 +43,39 @@ uv pip install gitrama-mcp
   }
 }
 ```
+</details>
 
-**Claude Code:**
+<details>
+<summary><b>Claude Desktop</b></summary>
+
+Add to `claude_desktop_config.json`:
+
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "gitrama": {
+      "command": "gitrama-mcp"
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Claude Code</b></summary>
 
 ```bash
 claude mcp add gitrama gitrama-mcp
 ```
+</details>
 
-**VS Code (Copilot)** — add to `.vscode/settings.json`:
+<details>
+<summary><b>VS Code (Copilot)</b></summary>
+
+Add to `.vscode/settings.json`:
 
 ```json
 {
@@ -76,8 +88,12 @@ claude mcp add gitrama gitrama-mcp
   }
 }
 ```
+</details>
 
-**Windsurf** — add to `~/.codeium/windsurf/mcp_config.json`:
+<details>
+<summary><b>Windsurf</b></summary>
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ```json
 {
@@ -88,8 +104,12 @@ claude mcp add gitrama gitrama-mcp
   }
 }
 ```
+</details>
 
-**Zed** — add to Zed settings (`⌘,`):
+<details>
+<summary><b>Zed</b></summary>
+
+Add to Zed settings (`⌘,`):
 
 ```json
 {
@@ -102,50 +122,67 @@ claude mcp add gitrama gitrama-mcp
   }
 }
 ```
+</details>
 
-### Step 3 — Done
+### Step 3: Done.
 
 Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`.
 
 ---
 
-## Tools
+## Tools (17)
 
 ### Repository Intelligence
 
-| Tool | What it does |
+| Tool | Description |
 |------|-------------|
-| `gitrama_ask` | Ask any question about your repo — ownership, history, risk, recent changes |
+| `gitrama_ask` | Ask any question about your repo — ownership, history, risk, changes |
 
 ### Commit Intelligence
 
-| Tool | What it does |
+| Tool | Description |
 |------|-------------|
 | `gitrama_commit` | Generate an AI commit message for staged changes |
-| `gitrama_stage_and_commit` | Stage files and commit in one step |
-| `gitrama_commit_quality` | Score the quality of recent commit messages |
+| `gitrama_stage_and_commit` | Stage files + commit in one step |
+| `gitrama_commit_quality` | Analyze quality of recent commit messages |
+| `gitrama_unstage` | Remove files from staging area without discarding changes |
 
 ### Branch Management
 
-| Tool | What it does |
+| Tool | Description |
 |------|-------------|
-| `gitrama_branch` | Create a new branch |
+| `gitrama_branch` | Create a new branch with AI-generated name |
 | `gitrama_branch_suggest` | Get AI-suggested branch names from a description |
 
 ### PR & Changelog
 
-| Tool | What it does |
+| Tool | Description |
 |------|-------------|
-| `gitrama_pr` | Generate a PR description from your branch diff |
-| `gitrama_changelog` | Generate a changelog between two refs |
+| `gitrama_pr` | Generate a PR description from branch diff |
+| `gitrama_changelog` | Generate a changelog between refs |
+
+### Code Intelligence
+
+| Tool | Description |
+|------|-------------|
+| `gitrama_diff` | Risk-annotated diff — churn rates, coupling gaps, contributor context |
+| `gitrama_review` | AI code review — severity-graded findings before you push |
+| `gitrama_scan` | Full structural health scan — risk scores every file, writes last_scan.json |
 
 ### Stream (Workflow) Management
 
-| Tool | What it does |
+| Tool | Description |
 |------|-------------|
-| `gitrama_stream_status` | Show your current workflow stream |
+| `gitrama_stream_status` | Show current workflow stream |
 | `gitrama_stream_switch` | Switch to a different stream |
 | `gitrama_stream_list` | List all streams in the repo |
+
+### Utilities
+
+| Tool | Description |
+|------|-------------|
+| `gitrama_status` | Show working tree status with AI interpretation |
+| `gitrama_health` | Check connectivity to Gitrama AI API |
 
 ---
 
@@ -153,20 +190,22 @@ Ask your AI: *"Commit my staged changes"* — and watch it call `gitrama_commit`
 
 ### `gitrama_ask`
 
-Ask a natural language question about your repository.
+Ask a natural language question about your repository. Gitrama analyzes commit history, file structure, blame data, and diffs to answer.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `question` | string | *required* | Any question about your repo |
-| `scope` | string | `"auto"` | History depth: `"auto"`, `"branch"`, `"full"`, or `"staged"` |
+| `scope` | string | `"auto"` | Context: `"auto"`, `"branch"`, `"full"`, or `"staged"` |
 | `model` | string | `""` | AI model override |
 
 **Example prompts:**
 - *"Who owns the auth module?"*
-- *"When did we last touch the payment logic?"*
-- *"What's the riskiest file right now?"*
+- *"When did we last change the payment logic?"*
+- *"What's the riskiest file in this repo?"*
+- *"Summarize what happened on this branch"*
 - *"What changed in the last 3 days?"*
-- *"Explain what src/utils/retry.py does"*
+- *"Explain the purpose of src/utils/retry.py"*
 
 ---
 
@@ -174,13 +213,14 @@ Ask a natural language question about your repository.
 
 Generate an AI-powered commit message for staged changes.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `message_type` | string | `"conventional"` | Style: `"conventional"`, `"detailed"`, or `"simple"` |
-| `context` | string | `""` | Optional hint to guide the AI |
-| `model` | string | `""` | AI model override |
+| `context` | string | `""` | Optional context (e.g., `"fixing auth bug"`) |
+| `model` | string | `""` | AI model override (e.g., `"gpt-4o"`, `"claude-sonnet-4-20250514"`) |
 
-**Example prompt:** *"Commit my changes — context: refactoring the payment module"*
+**Example prompt:** *"Commit my changes with a conventional message, context: refactoring the payment module"*
 
 ---
 
@@ -188,22 +228,26 @@ Generate an AI-powered commit message for staged changes.
 
 Stage files and commit in one step.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `files` | string | `"."` | Files to stage (`.` for all, or space-separated paths) |
 | `message_type` | string | `"conventional"` | Commit style |
-| `context` | string | `""` | Optional hint |
+| `context` | string | `""` | Optional context |
 | `model` | string | `""` | AI model override |
+
+**Example prompt:** *"Stage and commit all my changes"*
 
 ---
 
 ### `gitrama_commit_quality`
 
-Score the quality of recent commit messages.
+Analyze recent commit message quality.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `count` | int | `10` | Commits to analyze (1–50) |
+| `count` | int | `10` | Number of commits to analyze (1-50) |
 
 **Example prompt:** *"How good are our last 20 commit messages?"*
 
@@ -211,11 +255,12 @@ Score the quality of recent commit messages.
 
 ### `gitrama_branch_suggest`
 
-Get AI-suggested branch names for a task.
+Get AI-suggested branch names.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `description` | string | *required* | What you're working on |
+| `description` | string | *required* | Task description |
 | `model` | string | `""` | AI model override |
 
 **Example prompt:** *"Suggest a branch name for adding OAuth2 support"*
@@ -224,27 +269,31 @@ Get AI-suggested branch names for a task.
 
 ### `gitrama_pr`
 
-Generate a PR description from your branch diff.
+Generate a PR description.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `base` | string | `""` | Target branch (default: main/master) |
 | `model` | string | `""` | AI model override |
 
+**Example prompt:** *"Write a PR description for this branch"*
+
 ---
 
 ### `gitrama_changelog`
 
-Generate a changelog between two refs.
+Generate a changelog.
 
+**Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `since` | string | `""` | Start ref (tag, branch, or hash) |
+| `since` | string | `""` | Start ref (tag, branch, hash) |
 | `until` | string | `""` | End ref (default: HEAD) |
 | `format` | string | `"markdown"` | `"markdown"` or `"json"` |
 | `model` | string | `""` | AI model override |
 
-**Example prompt:** *"Generate a changelog since v1.0.0"*
+**Example prompt:** *"Generate a changelog since v1.1.4"*
 
 ---
 
@@ -254,48 +303,58 @@ Generate a changelog between two refs.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GTR_CWD` | current directory | Working directory for git operations |
+| `GTR_CWD` | `os.getcwd()` | Working directory for git operations |
 | `GTR_MCP_TRANSPORT` | `"stdio"` | Transport: `"stdio"` or `"streamable-http"` |
-| `GTR_MCP_HOST` | `"0.0.0.0"` | Host (HTTP transport only) |
-| `GTR_MCP_PORT` | `"8765"` | Port (HTTP transport only) |
+| `GTR_MCP_HOST` | `"0.0.0.0"` | HTTP host (when using streamable-http) |
+| `GTR_MCP_PORT` | `"8765"` | HTTP port (when using streamable-http) |
 
-### HTTP Transport (CI/CD)
+### HTTP Transport (for CI/CD)
 
 ```bash
 GTR_MCP_TRANSPORT=streamable-http GTR_MCP_PORT=8765 gitrama-mcp
 ```
 
+Then connect your client to `http://localhost:8765/mcp`.
+
 ---
 
 ## Requirements
 
+- Python 3.10+
 - Git installed and in PATH
-- A Gitrama API key ([get one at gitrama.ai](https://gitrama.ai))
+- A Gitrama API key or local Ollama instance
 
-Set your key after installing:
-
+Set your API key:
 ```bash
-gtr setup
+gtr config --key YOUR_API_KEY
 ```
 
-Or to use a local model:
+Or use a local model:
+```bash
+gtr config --provider ollama --model llama3
+```
+
+---
+
+## Development
 
 ```bash
-gtr setup --provider ollama
+git clone https://github.com/GitramaLLC/gitrama-mcp.git
+cd gitrama-mcp
+pip install -e ".[dev]"
+
+# Test with MCP Inspector
+mcp dev src/gitrama_mcp/server.py
 ```
 
 ---
 
 ## License
 
-Business Source License 1.1. Free for individual and non-competing use.  
-See [LICENSE](https://github.com/GitramaLLC/gitrama-mcp/blob/main/LICENSE) for full terms.
-
-The Gitrama intelligence engine this server connects to is proprietary.  
-The MCP integration layer is source-available under BSL 1.1.
+BLS 1.1 — see [LICENSE](LICENSE).
 
 ---
 
-Built by [Gitrama LLC](https://gitrama.ai) · [gitrama.ai](https://gitrama.ai)
+Built by [Alfonso Harding](https://www.linkedin.com/in/alfonso-h-47396b5/) · [gitrama.ai](https://gitrama.ai)
 
 🌿

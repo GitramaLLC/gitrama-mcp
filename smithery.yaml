@@ -1,0 +1,115 @@
+name: gitrama-mcp
+description: >
+  AI-powered Git intelligence for your IDE. Gitrama gives your AI assistant
+  deep repo awareness — commit messages, branch names, PR descriptions,
+  changelogs, pre-commit code review, risk-annotated diffs, full structural
+  health scans, and natural language repo Q&A (AskGIT). Works with Cursor,
+  Claude Desktop, Claude Code, Claude.ai, Windsurf, VS Code, and Zed.
+  No configuration required beyond pip install.
+ 
+version: "1.3.0"
+author: Alfonso Harding <alfonso@gitrama.ai>
+homepage: https://gitrama.ai
+repository: https://github.com/GitramaLLC/gitrama-mcp
+license: Proprietary
+ 
+tags:
+  - git
+  - ai
+  - developer-tools
+  - python
+  - conventional-commits
+  - workflow
+  - code-review
+  - repository-intelligence
+  - commit-messages
+  - pull-requests
+ 
+categories:
+  - developer-tools
+  - version-control
+  - productivity
+ 
+tools:
+  # Repository Intelligence
+  - name: gitrama_ask
+    description: >
+      Ask any natural language question about your repo — ownership, history,
+      risk, recent changes, file purpose. Powered by AskGIT.
+ 
+  # Commit Intelligence
+  - name: gitrama_commit
+    description: >
+      Generate an AI commit message for staged changes and execute the commit.
+  - name: gitrama_stage_and_commit
+    description: >
+      Stage files and commit in one step with an AI-generated message.
+  - name: gitrama_commit_quality
+    description: >
+      Analyze quality of recent commit messages — scores and improvement suggestions.
+  - name: gitrama_unstage
+    description: >
+      Remove files from the staging area without discarding changes.
+ 
+  # Branch Management
+  - name: gitrama_branch
+    description: >
+      Generate an AI branch name from a description and create the branch.
+  - name: gitrama_branch_suggest
+    description: >
+      Get 3 AI-suggested branch names from a task description without creating.
+ 
+  # PR & Changelog
+  - name: gitrama_pr
+    description: >
+      Generate a full PR description from the branch diff.
+  - name: gitrama_changelog
+    description: >
+      Generate a structured changelog between two refs (tag, branch, or hash).
+ 
+  # Code Intelligence
+  - name: gitrama_diff
+    description: >
+      Risk-annotated diff — overlays churn rates, coupling gaps, and contributor
+      context on every changed file.
+  - name: gitrama_review
+    description: >
+      AI code review before you push — severity-graded findings across security,
+      correctness, risk, and coupling.
+  - name: gitrama_scan
+    description: >
+      Full structural health scan — risk-scores every file, identifies coupling
+      hotspots, writes last_scan.json cache.
+ 
+  # Stream (Workflow) Management
+  - name: gitrama_stream_status
+    description: Show current workflow stream, branch, and recent commit context.
+  - name: gitrama_stream_switch
+    description: Switch to a different workflow stream and update AI context.
+  - name: gitrama_stream_list
+    description: List all streams in the repo with status and branch associations.
+ 
+  # Utilities
+  - name: gitrama_status
+    description: Show working tree status with AI interpretation.
+  - name: gitrama_health
+    description: Check connectivity to the Gitrama AI API.
+ 
+install:
+  type: pip
+  package: gitrama-mcp
+  command: pip install gitrama-mcp
+ 
+config:
+  - name: GITRAMA_TOKEN
+    description: >
+      Your Gitrama API key. Get one at https://gitrama.ai.
+      Set via `gtr config --key YOUR_KEY` or GITRAMA_TOKEN env var.
+    required: true
+    secret: true
+ 
+transport:
+  - type: stdio
+    command: gitrama-mcp
+  - type: sse
+    url: https://mcp.gitrama.ai/sse

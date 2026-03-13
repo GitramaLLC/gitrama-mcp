@@ -1,0 +1,53 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Gitrama Remote MCP Server
+# Deploys to Railway at mcp.gitrama.ai
+#
+# Transport: SSE (GET /sse + POST /sse) — compatible with Claude.ai,
+#            Claude Desktop remote, Cursor, Smithery, and all current clients.
+#
+# Build:  docker build -t gitrama-mcp .
+# Run:    docker run -p 8765:8765 \
+#           -e GITRAMA_TOKEN=your-token \
+#           -e GTR_MCP_TRANSPORT=sse \
+#           gitrama-mcp
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM python:3.11-slim
+
+# System deps — git is required for any gtr passthrough commands
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for security
+RUN useradd -m -u 1000 gitrama
+WORKDIR /app
+
+# Install Python packages as root, then hand off
+# Pin gitrama to minimum version that includes scan/diff/review
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy server entrypoint
+COPY src/ ./src/
+COPY pyproject.toml ./
+
+# Install the package itself
+RUN pip install --no-cache-dir -e .
+
+USER gitrama
+
+# ── Environment defaults (override in Railway dashboard) ──────────────────────
+ENV GTR_MCP_TRANSPORT=sse
+ENV GTR_MCP_HOST=0.0.0.0
+ENV GTR_MCP_PORT=8765
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8765
+
+# Health check — Railway uses this to verify the service is up
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:${GTR_MCP_PORT}/health || exit 1
+
+CMD ["gitrama-mcp"]

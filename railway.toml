@@ -1,0 +1,24 @@
+# railway.toml — Gitrama Remote MCP Server
+# Docs: https://docs.railway.com/reference/config-as-code
+ 
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+watchPatterns = [
+  "src/**",
+  "pyproject.toml",
+  "requirements.txt",
+  "Dockerfile"
+]
+ 
+[deploy]
+startCommand = "gitrama-mcp"
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+ 
+[environments.production.deploy]
+numReplicas = 1
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
