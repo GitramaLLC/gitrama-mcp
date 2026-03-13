@@ -13,7 +13,7 @@ If you discover a security vulnerability in Gitrama, **please do not open a publ
 
 Instead, report it privately:
 
-- **Email:** [security@gitrama.ai](mailto:security@gitrama.ai)
+- **Email:** [contact@gitrama.ai](mailto:contact@gitrama.ai)
 - **Response time:** We will acknowledge your report within **48 hours** and provide a detailed response within **5 business days**.
 - **Disclosure:** We follow [responsible disclosure](https://en.wikipedia.org/wiki/Responsible_disclosure). We will coordinate with you on timing before any public disclosure.
 
@@ -126,3 +126,4 @@ We pin dependency versions in `requirements.txt` and review updates regularly.
 | Date | Change |
 |------|--------|
 | 2026-03-02 | Initial security policy published |
+
