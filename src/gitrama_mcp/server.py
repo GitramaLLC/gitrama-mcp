@@ -14,9 +14,7 @@ Transport: stdio (default) or streamable-http
 """
  
 import asyncio
-import json
 import os
-import subprocess
 import sys
 from typing import Optional
  
@@ -533,7 +531,8 @@ def main():
  
     # TTY detection — if a human runs this directly, show help and exit
     if sys.stdin.isatty() and os.environ.get("GTR_MCP_TRANSPORT", "stdio") == "stdio":
-        print("""
+        sys.stdout.reconfigure(encoding="utf-8")
+        print(f"""
 🌿 Gitrama MCP Server v{__version__}
  
 This server is designed to run inside MCP-compatible AI clients.
@@ -546,28 +545,28 @@ This server is designed to run inside MCP-compatible AI clients.
   VS Code        → add to .vscode/mcp.json
  
   Config:
-  {
-    "mcpServers": {
-      "gitrama": {
+  {{
+    "mcpServers": {{
+      "gitrama": {{
         "command": "gitrama-mcp",
-        "env": { "GITRAMA_TOKEN": "your-token" }
-      }
-    }
-  }
- 
+        "env": {{ "GITRAMA_TOKEN": "your-token" }}
+      }}
+    }}
+  }}
+
 ── REMOTE (SSE / HTTP) ──────────────────────────────────────
   Set GTR_MCP_TRANSPORT=sse and deploy to Railway.
   Clients connect via URL — no local install needed.
- 
+
   Config (Claude Desktop, Cursor, Claude.ai):
-  {
-    "mcpServers": {
-      "gitrama": {
+  {{
+    "mcpServers": {{
+      "gitrama": {{
         "url": "https://mcp.gitrama.ai/sse",
-        "headers": { "Authorization": "Bearer your-token" }
-      }
-    }
-  }
+        "headers": {{ "Authorization": "Bearer your-token" }}
+      }}
+    }}
+  }}
  
 Docs:  https://gitrama.ai/mcp
 PyPI:  pip install gitrama-mcp
