@@ -1,6 +1,6 @@
 """
 Gitrama MCP Server — 10 tools for AI-powered Git intelligence.
- 
+
 Exposes Gitrama's CLI capabilities as MCP tools for use in:
 - Cursor
 - Claude Desktop
@@ -9,15 +9,15 @@ Exposes Gitrama's CLI capabilities as MCP tools for use in:
 - VS Code (Copilot)
 - Zed
 - CI/CD pipelines
- 
+
 Transport: stdio (default) or streamable-http
 """
- 
+
 import asyncio
 import os
 import sys
 from typing import Optional
- 
+
 from mcp.server.fastmcp import FastMCP
 
 # ---------------------------------------------------------------------------
@@ -27,11 +27,10 @@ from mcp.server.fastmcp import FastMCP
 __version__ = "1.3.2"
 
 
- 
 # ---------------------------------------------------------------------------
 # Server initialisation
 # ---------------------------------------------------------------------------
- 
+
 mcp = FastMCP(
     "gitrama",
     instructions=(
@@ -40,26 +39,29 @@ mcp = FastMCP(
         "Requires `gitrama` CLI installed (pip install gitrama)."
     ),
 )
- 
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
- 
+
+
 def _get_cwd() -> str:
     """Return the working directory — prefer GTR_CWD env var, then os.getcwd()."""
     return os.environ.get("GTR_CWD", os.getcwd())
- 
- 
-async def _run_gtr(args: list[str], cwd: Optional[str] = None, timeout: int = 120) -> dict:
+
+
+async def _run_gtr(
+    args: list[str], cwd: Optional[str] = None, timeout: int = 120
+) -> dict:
     """
     Run a `gtr` CLI command and return structured output.
- 
+
     Returns:
         dict with keys: success (bool), stdout (str), stderr (str), returncode (int)
     """
     cmd = ["gtr"] + args
     work_dir = cwd or _get_cwd()
- 
+
     try:
         proc = await asyncio.create_subprocess_exec(
             *cmd,
@@ -96,8 +98,8 @@ async def _run_gtr(args: list[str], cwd: Optional[str] = None, timeout: int = 12
             ),
             "returncode": -1,
         }
- 
- 
+
+
 def _format_result(result: dict, context: str = "") -> str:
     """Format a CLI result into a clean MCP response."""
     if result["success"]:
@@ -105,23 +107,24 @@ def _format_result(result: dict, context: str = "") -> str:
     else:
         msg = result["stderr"] or result["stdout"] or "Unknown error"
         return f"❌ Error: {msg}"
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 1: gitrama_commit
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_commit(
     message: str = "",
 ) -> str:
     """
     Generate an AI-powered commit message for currently staged changes.
- 
+
     Analyzes the git diff of staged files and produces a conventional
     commit message following best practices. Requires files to be staged
     first (git add).
- 
+
     Args:
         message: Optional custom commit message. If provided, skips AI
                  generation and uses this message directly.
@@ -129,15 +132,16 @@ async def gitrama_commit(
     args = ["commit", "-y"]
     if message:
         args.extend(["-m", message])
- 
+
     result = await _run_gtr(args)
     return _format_result(result, "Commit created")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 2: gitrama_stage_and_commit
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_stage_and_commit(
     files: str = ".",
@@ -145,10 +149,10 @@ async def gitrama_stage_and_commit(
 ) -> str:
     """
     Stage files and create an AI-powered commit in one step.
- 
+
     Equivalent to `git add <files> && gtr commit -y`. Stages the specified
     files (or all changes), then generates and applies an AI commit message.
- 
+
     Args:
         files: Files to stage — "." for all changes (default), or
                space-separated paths (e.g., "src/auth.py tests/test_auth.py").
@@ -169,15 +173,16 @@ async def gitrama_stage_and_commit(
         await stage_proc.communicate()
     except Exception as e:
         return f"❌ Failed to stage files: {e}"
- 
+
     # Now commit
     return await gitrama_commit(message=message)
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 3: gitrama_ask
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_ask(
     question: str,
@@ -185,22 +190,22 @@ async def gitrama_ask(
     deep: bool = False,
 ) -> str:
     """
-    Ask a natural language question about your repository.
-Uses Gitrama intelligence to provide context-aware answers.
- 
-Example questions:
-- "Who owns the auth module?"
-- "When did we last change the payment logic?"
-- "What's the riskiest file in this repo?"
-- "What changed in the last 3 days?"
-- "Explain the purpose of src/utils/retry.py"
-- "What stream am I on?"
- 
- 
-Args:
-    question: Natural language question about your repository.
-    stream: Optional stream context override (wip | hotfix | review | experiment).
-    deep: Enable full repo history access for deeper analysis.
+        Ask a natural language question about your repository.
+    Uses Gitrama intelligence to provide context-aware answers.
+
+    Example questions:
+    - "Who owns the auth module?"
+    - "When did we last change the payment logic?"
+    - "What's the riskiest file in this repo?"
+    - "What changed in the last 3 days?"
+    - "Explain the purpose of src/utils/retry.py"
+    - "What stream am I on?"
+
+
+    Args:
+        question: Natural language question about your repository.
+        stream: Optional stream context override (wip | hotfix | review | experiment).
+        deep: Enable full repo history access for deeper analysis.
     """
     args = ["ask", "--query", question]
     if stream:
@@ -209,12 +214,13 @@ Args:
         args.append("--deep")
     result = await _run_gtr(args, timeout=180)
     return _format_result(result, "Question answered")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 4: gitrama_branch
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_branch(
     description: str,
@@ -222,16 +228,16 @@ async def gitrama_branch(
 ) -> str:
     """
     Generate an AI-powered branch name from a description.
- 
+
     Analyzes your description and generates a conventional branch name
     following best practices (feat/, fix/, chore/, etc.), then optionally
     creates and switches to the branch.
- 
+
     Examples:
     - "Add user authentication" → feat/add-user-authentication
     - "Fix memory leak" → fix/memory-leak
     - "Update docs" → docs/update-docs
- 
+
     Args:
         description: What you're working on (e.g., "add user authentication
                      with OAuth2", "fix timeout in payment processing").
@@ -243,23 +249,24 @@ async def gitrama_branch(
         args.append("--no-create")
     result = await _run_gtr(args)
     return _format_result(result, "Branch created")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 5: gitrama_pr
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_pr(
     base: str = "",
 ) -> str:
     """
     Generate an AI-powered pull request description.
- 
+
     Analyzes the diff between the current branch and the base branch,
     then generates a comprehensive PR description with title, summary,
     changes list, and testing notes.
- 
+
     Args:
         base: Target branch for the PR (default: main or master).
     """
@@ -268,29 +275,31 @@ async def gitrama_pr(
         args.extend(["--base", base])
     result = await _run_gtr(args)
     return _format_result(result, "PR description generated")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 6: gitrama_stream_status
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_stream_status() -> str:
     """
     Show the current Gitrama stream (workflow context).
- 
+
     Streams are Gitrama's concept of workflow focus — they track what
     you're working on and influence AI suggestions. Returns the active
     stream name, description, and associated branch.
     """
     result = await _run_gtr(["stream", "status"])
     return _format_result(result, "Stream status retrieved")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 7: gitrama_stream_switch
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_stream_switch(
     name: str,
@@ -298,10 +307,10 @@ async def gitrama_stream_switch(
 ) -> str:
     """
     Switch to a different Gitrama stream (workflow context).
- 
+
     Creates a new stream or switches to an existing one. Streams help
     the AI understand what you're working on for better suggestions.
- 
+
     Args:
         name: Stream name (e.g., "auth-refactor", "payment-v2").
         description: Optional description of the stream's purpose.
@@ -311,28 +320,30 @@ async def gitrama_stream_switch(
         args.extend(["--description", description])
     result = await _run_gtr(args)
     return _format_result(result, f"Switched to stream '{name}'")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 8: gitrama_stream_list
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_stream_list() -> str:
     """
     List all Gitrama streams in the current repository.
- 
+
     Shows all defined streams with their names, descriptions,
     and associated branches. The active stream is highlighted.
     """
     result = await _run_gtr(["stream", "list"])
     return _format_result(result, "Streams listed")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 9: gitrama_health
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_health() -> str:
     """
@@ -345,28 +356,30 @@ async def gitrama_health() -> str:
     result = await _run_gtr(["health"])
     output = _format_result(result, "Health check complete")
     return f"{output}\n\n🔖 Gitrama MCP Server: v{__version__}"
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 10: gitrama_status
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_status() -> str:
     """
     Show the working tree status with AI interpretation.
- 
+
     Displays the current git status including staged, unstaged,
     and untracked files with AI-powered context about the changes.
     """
     result = await _run_gtr(["status"])
     return _format_result(result, "Status retrieved")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 11: gitrama_diff
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_diff(
     target: str = "",
@@ -374,11 +387,11 @@ async def gitrama_diff(
 ) -> str:
     """
     Show a risk-annotated diff of current changes.
- 
+
     Overlays Gitrama's structural intelligence on top of the raw git diff —
     risk scores, churn rates, coupling gaps, and contributor context for
     every changed file. Opens a browser panel with the full analysis.
- 
+
     Args:
         target: Branch or commit to diff against (default: working tree).
         staged: If True, diff staged changes only (default: all changes).
@@ -390,25 +403,26 @@ async def gitrama_diff(
         args.append("--staged")
     result = await _run_gtr(args, timeout=180)
     return _format_result(result, "Diff complete")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 12: gitrama_review
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_review(
     mode: str = "staged",
 ) -> str:
     """
     Run an AI code review on current changes before committing.
- 
+
     Sends your diff and repo intelligence to Gitrama's review engine.
     Returns severity-graded findings — security, correctness, risk,
     coupling — plus a verdict and suggested commit message.
- 
+
     Runs before you push, not after. Catches issues at the right time.
- 
+
     Args:
         mode: Review scope — one of:
               "staged"      — staged changes only (default)
@@ -417,20 +431,21 @@ async def gitrama_review(
               "full"        — full review with suggestions
     """
     mode_flags = {
-        "staged":      [],
+        "staged": [],
         "uncommitted": ["--uncommitted"],
-        "quick":       ["--quick"],
-        "full":        ["--full"],
+        "quick": ["--quick"],
+        "full": ["--full"],
     }
     args = ["review"] + mode_flags.get(mode, [])
     result = await _run_gtr(args, timeout=300)
     return _format_result(result, "Review complete")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 13: gitrama_unstage
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_unstage(
     files: str = "",
@@ -438,10 +453,10 @@ async def gitrama_unstage(
 ) -> str:
     """
     Remove files from the staging area without discarding changes.
- 
+
     Moves files out of the git index back to the working tree.
     Changes are preserved — nothing is lost.
- 
+
     Args:
         files: Space-separated file paths to unstage. Leave empty for
                interactive selection (CLI only).
@@ -454,31 +469,32 @@ async def gitrama_unstage(
         args.extend(files.split())
     result = await _run_gtr(args)
     return _format_result(result, "Files unstaged")
- 
- 
+
+
 # ---------------------------------------------------------------------------
 # Tool 14: gitrama_scan
 # ---------------------------------------------------------------------------
- 
+
+
 @mcp.tool()
 async def gitrama_scan() -> str:
     """
     Run a full structural health scan of the repository.
- 
+
     Scores every file for continuity risk, boundary entropy, and
     recurrence patterns. Identifies coupling hotspots and contributor
     concentration before they compound into failures.
- 
+
     Results are cached in last_scan.json for use by gtr diff and gtr review.
     """
     result = await _run_gtr(["scan"], timeout=300)
     return _format_result(result, "Scan complete")
- 
 
 
 # ---------------------------------------------------------------------------
 # Tool 15: gitrama_push
 # ---------------------------------------------------------------------------
+
 
 @mcp.tool()
 async def gitrama_push(
@@ -503,7 +519,10 @@ async def gitrama_push(
     # Resolve current branch if none specified
     if not branch:
         branch_result = await asyncio.create_subprocess_exec(
-            "git", "rev-parse", "--abbrev-ref", "HEAD",
+            "git",
+            "rev-parse",
+            "--abbrev-ref",
+            "HEAD",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=_get_cwd(),
@@ -525,10 +544,11 @@ async def gitrama_push(
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
- 
+
+
 def main():
     """Run the Gitrama MCP server."""
- 
+
     # TTY detection — if a human runs this directly, show help and exit
     if sys.stdin.isatty() and os.environ.get("GTR_MCP_TRANSPORT", "stdio") == "stdio":
         sys.stdout.reconfigure(encoding="utf-8")
@@ -572,9 +592,9 @@ Docs:  https://gitrama.ai/mcp
 PyPI:  pip install gitrama-mcp
 """)
         sys.exit(0)
- 
+
     transport = os.environ.get("GTR_MCP_TRANSPORT", "stdio")
- 
+
     if transport == "stdio":
         mcp.run(transport="stdio")
     elif transport in ("streamable-http", "sse"):
@@ -596,7 +616,7 @@ PyPI:  pip install gitrama-mcp
             file=sys.stderr,
         )
         sys.exit(1)
- 
- 
+
+
 if __name__ == "__main__":
     main()
