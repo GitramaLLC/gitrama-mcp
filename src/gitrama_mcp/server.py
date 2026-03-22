@@ -386,7 +386,7 @@ async def gitrama_diff(
  
  
 # ---------------------------------------------------------------------------
-# Tool 13: gitrama_review
+# Tool 12: gitrama_review
 # ---------------------------------------------------------------------------
  
 @mcp.tool()
@@ -421,7 +421,7 @@ async def gitrama_review(
  
  
 # ---------------------------------------------------------------------------
-# Tool 14: gitrama_unstage
+# Tool 13: gitrama_unstage
 # ---------------------------------------------------------------------------
  
 @mcp.tool()
@@ -450,7 +450,7 @@ async def gitrama_unstage(
  
  
 # ---------------------------------------------------------------------------
-# Tool 15: gitrama_scan
+# Tool 14: gitrama_scan
 # ---------------------------------------------------------------------------
  
 @mcp.tool()
@@ -478,7 +478,7 @@ def main():
     # TTY detection — if a human runs this directly, show help and exit
     if sys.stdin.isatty() and os.environ.get("GTR_MCP_TRANSPORT", "stdio") == "stdio":
         print("""
-🌿 Gitrama MCP Server v1.3.0
+🌿 Gitrama MCP Server v1.3.2
  
 This server is designed to run inside MCP-compatible AI clients.
  
