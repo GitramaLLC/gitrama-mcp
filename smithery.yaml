@@ -1,25 +1,71 @@
 name: gitrama-mcp
+display_name: Gitrama
 description: >
   AI-powered Git intelligence for your IDE. Gitrama gives your AI assistant
   deep repo awareness — commit messages, branch names, PR descriptions,
   changelogs, pre-commit code review, risk-annotated diffs, full structural
-  health scans, and natural language repo Q&A (AskGIT). Works with Cursor,
+  health scans, and natural language repo Q&A. Works with Cursor,
   Claude Desktop, Claude Code, Claude.ai, Windsurf, VS Code, and Zed.
   No configuration required beyond pip install.
- 
+
 version: "1.3.2"
 author: Alfonso Harding <alfonso@gitrama.ai>
 homepage: https://gitrama.ai
 repository: https://github.com/GitramaLLC/gitrama-mcp
 license: Proprietary
- 
-tags:
-  - git
-  - ai
-  - developer-tools
-  - python
-  - conventional-commits
-  - workflow
-author: onegreatdev
-homepage: https://gitrama.io
-repository: https://github.com/ahmaxdev/gitrama-mcp
+icon: https://gitrama.ai/icon.png
+
+server:
+  type: http
+  url: https://mcp.gitrama.ai/mcp
+
+configSchema:
+  type: object
+  properties:
+    GITRAMA_TOKEN:
+      type: string
+      title: Gitrama API Token
+      description: >
+        Your Gitrama API key. Required to authenticate with the Gitrama AI API.
+        Get one at gitrama.ai.
+      secret: true
+  required:
+    - GITRAMA_TOKEN
+
+tools:
+  - name: gitrama_health
+    description: Check AI server health and confirm MCP server version
+  - name: gitrama_ask
+    description: Ask any natural language question about your repo — ownership, history, risk, changes
+  - name: gitrama_scan
+    description: Full structural health scan — continuity risk, boundary entropy, recurrence patterns
+  - name: gitrama_status
+    description: Working tree status with AI interpretation
+  - name: gitrama_diff
+    description: Risk-annotated diff with interactive HTML panel — churn rates, coupling gaps, contributor context
+  - name: gitrama_review
+    description: AI code review before you push — security, correctness, risk, coupling
+  - name: gitrama_commit
+    description: AI-generated commit message for staged changes
+  - name: gitrama_stage_and_commit
+    description: Stage files and commit in one step
+  - name: gitrama_commit_quality
+    description: Score recent commit messages 0-100 with improvement suggestions
+  - name: gitrama_unstage
+    description: Remove files from staging without discarding changes
+  - name: gitrama_branch
+    description: AI-generated branch name from a natural language description
+  - name: gitrama_branch_suggest
+    description: Get 3 AI branch name suggestions without creating a branch
+  - name: gitrama_push
+    description: Push to remote with upstream tracking and force-with-lease support
+  - name: gitrama_pr
+    description: AI-generated PR description from branch diff
+  - name: gitrama_changelog
+    description: Generate a structured changelog between any two refs
+  - name: gitrama_stream_status
+    description: Show current workflow stream
+  - name: gitrama_stream_switch
+    description: Switch to a different workflow stream
+  - name: gitrama_stream_list
+    description: List all streams in the repository
