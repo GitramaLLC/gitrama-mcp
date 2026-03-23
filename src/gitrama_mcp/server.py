@@ -623,17 +623,10 @@ PyPI:  pip install gitrama-mcp
         # "streamable-http"  → stateless POST /mcp (newer clients, 2025+)
         # Railway default: SSE for maximum client compatibility.
         host = os.environ.get("GTR_MCP_HOST", "0.0.0.0")
-        port = int(os.environ.get("GTR_MCP_PORT", "8765"))
+        port = int(os.environ.get("PORT", os.environ.get("GTR_MCP_PORT", "8765")))
         mcp.settings.host = host
         mcp.settings.port = port
-        mcp.run(
-                transport=transport,
-                uvicorn_config={
-                    "host": host,
-                    "port": port,
-                    "forwarded_allow_ips": "*",
-                }
-        )
+        mcp.run(transport=transport)
     else:
         print(
             f"Unknown transport: {transport!r}. "
