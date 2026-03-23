@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/gitrama-mcp)](https://pypi.org/project/gitrama-mcp/)
 ![License: Proprietary](https://img.shields.io/badge/License-Proprietary-1A7A4A.svg)
+[![smithery badge](https://smithery.ai/badge/GitramaLLC/gitrama-mcp)](https://smithery.ai/servers/GitramaLLC/gitrama-mcp)
  
 ## What is this?
  
