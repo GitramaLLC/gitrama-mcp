@@ -626,6 +626,7 @@ PyPI:  pip install gitrama-mcp
         port = int(os.environ.get("GTR_MCP_PORT", "8765"))
         mcp.settings.host = host
         mcp.settings.port = port
+        mcp.settings.allowed_hosts = [*]
         mcp.run(transport=transport)
     else:
         print(
