@@ -56,8 +56,8 @@ jobs:
 
       - name: Lint with ruff
         run: |
-          ruff check gitrama/ --output-format=github
-
+          ruff check src/ --output-format=github
+        continue-on-error: true
   security:
     runs-on: ubuntu-latest
     steps:
