@@ -1,12 +1,12 @@
 """
-Gitrama MCP Server — 10 tools for AI-powered Git intelligence.
+Gitrama MCP Server — 15 tools for AI-powered Git intelligence.
 
 Exposes Gitrama's CLI capabilities as MCP tools for use in:
 - Cursor
 - Claude Desktop
 - Claude Code
 - Windsurf
-- VS Code (Copilot)
+- VS Code
 - Zed
 - CI/CD pipelines
 
@@ -59,7 +59,6 @@ async def health(request: Request) -> JSONResponse:
         "version": __version__,
         "transport": os.environ.get("GTR_MCP_TRANSPORT", "stdio")
     })
-
 
 
 # ---------------------------------------------------------------------------
@@ -212,7 +211,7 @@ async def gitrama_ask(
     deep: bool = False,
 ) -> str:
     """
-        Ask a natural language question about your repository.
+    Ask a natural language question about your repository.
     Uses Gitrama intelligence to provide context-aware answers.
 
     Example questions:
@@ -223,7 +222,6 @@ async def gitrama_ask(
     - "What changed in the last 3 days?"
     - "Explain the purpose of src/utils/retry.py"
     - "What stream am I on?"
-
 
     Args:
         question: Natural language question about your repository.
@@ -577,40 +575,42 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
         print(f"""
 🌿 Gitrama MCP Server v{__version__}
- 
+
 This server is designed to run inside MCP-compatible AI clients.
- 
+
 ── LOCAL (stdio) ────────────────────────────────────────────
   Cursor         → add to .cursor/mcp.json
   Claude Desktop → add to claude_desktop_config.json
   Claude Code    → claude mcp add gitrama -- gitrama-mcp
   Windsurf       → add to mcp_config.json
   VS Code        → add to .vscode/mcp.json
- 
+
   Config:
   {{
     "mcpServers": {{
       "gitrama": {{
         "command": "gitrama-mcp",
-        "env": {{ "GITRAMA_TOKEN": "your-token" }}
+        "env": {{ "GITRAMA_TOKEN": "your_token_here" }}
       }}
     }}
   }}
 
-── REMOTE (SSE / HTTP) ──────────────────────────────────────
-  Set GTR_MCP_TRANSPORT=sse and deploy to Railway.
-  Clients connect via URL — no local install needed.
+── REMOTE (streamable-http) ─────────────────────────────────
+  Connect to the hosted server — no local install required.
 
-  Config (Claude Desktop, Cursor, Claude.ai):
+  Config (Claude Desktop, Cursor, Claude.ai, Windsurf, VS Code):
   {{
     "mcpServers": {{
       "gitrama": {{
-        "url": "https://mcp.gitrama.ai/sse",
-        "headers": {{ "Authorization": "Bearer your-token" }}
+        "url": "https://mcp.gitrama.ai/mcp",
+        "env": {{ "GITRAMA_TOKEN": "your_token_here" }}
       }}
     }}
   }}
- 
+
+  Or via Smithery:
+  smithery mcp add GitramaLLC/gitrama-mcp
+
 Docs:  https://gitrama.ai/mcp
 PyPI:  pip install gitrama-mcp
 """)
@@ -622,11 +622,8 @@ PyPI:  pip install gitrama-mcp
         mcp.run(transport="stdio")
     elif transport in ("streamable-http", "sse"):
         # Both HTTP transports share the same host/port config.
-        # "sse"              → classic SSE  (GET /sse stream + POST /sse calls)
-        #                       required by Claude.ai web, Claude Desktop remote,
-        #                       Smithery, and most current clients.
-        # "streamable-http"  → stateless POST /mcp (newer clients, 2025+)
-        # Railway default: SSE for maximum client compatibility.
+        # "streamable-http"  → stateless POST /mcp (default for remote)
+        # "sse"              → classic SSE, legacy clients only
         host = os.environ.get("GTR_MCP_HOST", "0.0.0.0")
         port = int(os.environ.get("PORT", os.environ.get("GTR_MCP_PORT", "8765")))
         mcp.settings.host = host
@@ -635,7 +632,7 @@ PyPI:  pip install gitrama-mcp
     else:
         print(
             f"Unknown transport: {transport!r}. "
-            "Use 'stdio', 'sse', or 'streamable-http'.",
+            "Use 'stdio', 'streamable-http', or 'sse'.",
             file=sys.stderr,
         )
         sys.exit(1)
