@@ -19,6 +19,8 @@ import sys
 from typing import Optional
 
 from mcp.server.fastmcp import FastMCP
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 # ---------------------------------------------------------------------------
 # Module version
@@ -39,6 +41,21 @@ mcp = FastMCP(
         "Requires `gitrama` CLI installed (pip install gitrama)."
     ),
 )
+
+
+# ---------------------------------------------------------------------------
+# Health endpoint
+# ---------------------------------------------------------------------------
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health(request: Request) -> JSONResponse:
+    return JSONResponse({
+        "status": "ok",
+        "version": __version__,
+        "transport": os.environ.get("GTR_MCP_TRANSPORT", "stdio")
+    })
+
+
 
 # ---------------------------------------------------------------------------
 # Helpers
