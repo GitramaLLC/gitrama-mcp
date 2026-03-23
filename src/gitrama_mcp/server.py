@@ -212,6 +212,7 @@ async def gitrama_ask(
 
     Example questions:
     - "Who owns the auth module?"
+    - "Who are the top contributors?"
     - "When did we last change the payment logic?"
     - "What's the riskiest file in this repo?"
     - "What changed in the last 3 days?"
