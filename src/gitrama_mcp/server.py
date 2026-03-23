@@ -40,6 +40,9 @@ mcp = FastMCP(
         "PR descriptions, changelogs, and stream-based workflow management. "
         "Requires `gitrama` CLI installed (pip install gitrama)."
     ),
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False,
+    )
 )
 
 
